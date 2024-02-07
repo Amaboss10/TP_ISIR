@@ -62,17 +62,15 @@ namespace RT_ISICG
 
 				for ( int sample = 0; sample < _nbPixelSamples; sample++ )
 				{
-					float randI = (float)std::rand() / RAND_MAX;
-					float randJ = (float)std::rand() / RAND_MAX;
 
-					const Ray myRay = p_camera->generateRay( (float)( i  + randI) / (float)( width - 1 ),
-															 (float)( j  + randJ) / (float)( height - 1 ) );
+					const Ray myRay = p_camera->generateRay( (float)( i  + randomFloat()) / (float)( width ),
+															 (float)( j  + randomFloat() )/ (float)( height  ) );
 
 					color += _integrator->Li( p_scene, myRay, pMin, pMax );
 				}
 				Vec3f colorfinal = color / (float)_nbPixelSamples;
 				// std::cout << color.x << " " << color.y << " " << color.z << std::endl;
-				p_texture.setPixel( i, j, glm::clamp( color, Vec3f( 0, 0, 0 ), Vec3f( 1, 1, 1 ) ) );
+				p_texture.setPixel( i, j, colorfinal);
 
 			}
 			progressBar.next();

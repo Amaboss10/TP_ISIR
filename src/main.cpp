@@ -16,7 +16,7 @@ namespace RT_ISICG
 		Scene scene;
 		scene.init();
 		int choixCamera = -1;
-		int nbSample	= 1;
+		int nbSample	= 32;
 
 		// Create a perspective camera.
 		Vec3f pos_camera = VEC3F_ZERO;

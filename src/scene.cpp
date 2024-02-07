@@ -29,10 +29,10 @@ namespace RT_ISICG
 	void Scene::init()
 	{
 		// Add objects.
-		_addObject( new Sphere( "Sphere1", Vec3f( 0.f, -2.f, 3.f ), 1.f ) );
+		_addObject( new Sphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
 
 		// Add materials.
-		_addMaterial( new ColorMaterial( "Red", RED ) );
+		_addMaterial( new ColorMaterial( "Blue", BLUE ) );
 
 		// Link objects and materials.
 		_attachMaterialToObject( "Blue", "Sphere1" );
