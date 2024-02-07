@@ -104,6 +104,9 @@
     <ClCompile Include="src\objects\implicit_surface.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\geometry\plane_geometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\defines.hpp">
@@ -189,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="src\objects\implicit_surface.hpp">
       <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry\plane_geometry.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

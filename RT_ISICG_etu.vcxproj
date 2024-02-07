@@ -155,6 +155,7 @@ xcopy /y /d  "$(ProjectDir)lib\zlib1.dll" "$(OutDir)"</Command>
     <ClCompile Include="src\aabb.cpp" />
     <ClCompile Include="src\bvh.cpp" />
     <ClCompile Include="src\cameras\perspective_camera.cpp" />
+    <ClCompile Include="src\geometry\plane_geometry.cpp" />
     <ClCompile Include="src\geometry\sphere_geometry.cpp" />
     <ClCompile Include="src\geometry\triangle_mesh_geometry.cpp" />
     <ClCompile Include="src\integrators\ray_cast_integrator.cpp" />
@@ -174,6 +175,7 @@ xcopy /y /d  "$(ProjectDir)lib\zlib1.dll" "$(OutDir)"</Command>
     <ClInclude Include="src\cameras\base_camera.hpp" />
     <ClInclude Include="src\cameras\perspective_camera.hpp" />
     <ClInclude Include="src\geometry\base_geometry.hpp" />
+    <ClInclude Include="src\geometry\plane_geometry.hpp" />
     <ClInclude Include="src\geometry\sphere_geometry.hpp" />
     <ClInclude Include="src\geometry\triangle_mesh_geometry.hpp" />
     <ClInclude Include="src\hit_record.hpp" />
