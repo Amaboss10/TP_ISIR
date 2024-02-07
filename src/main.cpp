@@ -16,6 +16,7 @@ namespace RT_ISICG
 		Scene scene;
 		scene.init();
 		int choixCamera = -1;
+		int nbSample	= 1;
 
 		// Create a perspective camera.
 		Vec3f pos_camera = VEC3F_ZERO;
@@ -24,9 +25,9 @@ namespace RT_ISICG
 		// Create and setup the renderer.
 		Renderer renderer;
 		renderer.setIntegrator( IntegratorType::RAY_CAST );
+		renderer.setNbPixelSamples( nbSample );
 		renderer.setBackgroundColor( GREY );
 
-		renderer.setIntegrator( IntegratorType::RAY_CAST );
 		while ( choixCamera > 4 || choixCamera < 0 )
 		{
 			std::cout << "------------------------------------" << std::endl;

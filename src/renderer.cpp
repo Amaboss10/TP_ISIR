@@ -48,15 +48,30 @@ namespace RT_ISICG
 			{
 				
 				// Générer un rayon passant par le centre de chaque pixel
-				Ray ray = p_camera->generateRay( float( i ) / float ( width - 1 ), float( j ) / float ( height - 1 ));
+				//Ray ray = p_camera->generateRay( float( i ) / float ( width - 1 ), float( j ) / float ( height - 1 ));
 
 				// Appel de la methode LI 
-				Vec3f color =   _integrator->Li( p_scene, ray, pMin, pMax );
+				//Vec3f color =   _integrator->Li( p_scene, ray, pMin, pMax );
 
 				//Vec3f color = ( ray.getDirection() + 1.f ) * 0.5f;
 
 				// Appliquer la couleur au pixel de la texture
-				p_texture.setPixel( i, j, color );
+				//p_texture.setPixel( i, j, color );
+
+				Vec3f color = Vec3f( 0.f );
+
+				for ( int sample = 0; sample < _nbPixelSamples; sample++ )
+				{
+
+					const Ray myRay = p_camera->generateRay( (float)( i ) / (float)( width - 1 ),
+															 (float)( j ) / (float)( height - 1 ) );
+
+					color += _integrator->Li( p_scene, myRay, pMin, pMax );
+				}
+				Vec3f colorfinal = color / (float)_nbPixelSamples;
+				// std::cout << color.x << " " << color.y << " " << color.z << std::endl;
+				p_texture.setPixel( i, j, glm::clamp( color, Vec3f( 0, 0, 0 ), Vec3f( 1, 1, 1 ) ) );
+
 			}
 			progressBar.next();
 		}
