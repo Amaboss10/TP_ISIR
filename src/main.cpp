@@ -15,14 +15,56 @@ namespace RT_ISICG
 		// Create and init scene.
 		Scene scene;
 		scene.init();
+		int choixCamera = -1;
 
 		// Create a perspective camera.
-		PerspectiveCamera camera( float( imgWidth ) / imgHeight );
+		Vec3f pos_camera = VEC3F_ZERO;
+		Vec3f pos_lookAt = VEC3F_ZERO;
 
 		// Create and setup the renderer.
 		Renderer renderer;
 		renderer.setIntegrator( IntegratorType::RAY_CAST );
 		renderer.setBackgroundColor( GREY );
+
+		renderer.setIntegrator( IntegratorType::RAY_CAST );
+		while ( choixCamera > 4 || choixCamera < 0 )
+		{
+			std::cout << "------------------------------------" << std::endl;
+			std::cout << "1-Pos:(0,0,-2) Look(0,0,79)" << std::endl;
+			std::cout << "2-Pos:(1,0,0) Look(1,0,1)" << std::endl;
+			std::cout << "3-Pos:(0,1,0) Look(0,1,1)" << std::endl;
+			std::cout << "4-Pos:(4,-1,0) Look(-1,-1,2)" << std::endl;
+			std::cout << "------------------------------------" << std::endl;
+			std::cout << "ENTREZ UN NUMERO DE LA CAMERA" << std::endl;
+			std::cin >> choixCamera;
+			if ( choixCamera > 4 || choixCamera < 0 ) { std::cout << "ENTREZ LE NUMERO DE CAMERA VALIDE" << std::endl; }
+		}
+		switch ( choixCamera )
+		{
+		case 1:
+			pos_camera = Vec3f( 0.f, 0.f, -2.f );
+			pos_lookAt = Vec3f( 0.f, 0.f, 79.f );
+			break;
+		case 2:
+			pos_camera = Vec3f( 1.f, 0.f, 0.f );
+			pos_lookAt = Vec3f( 1.f, 0.f, 1.f );
+			break;
+		case 3:
+			pos_camera = Vec3f( 0.f, 1.f, 0.f );
+			pos_lookAt = Vec3f( 0.f, 1.f, 1.f );
+			break;
+		case 4:
+			pos_camera = Vec3f( 4.f, -1.f, 0.f );
+			pos_lookAt = Vec3f( -1.f, -1.f, 2.f );
+			break;
+		}
+
+		
+		Vec3f p_up		 = Vec3f( 0.f, 1.f, 0.f );
+		float FOV		 = 60.f;
+		
+		PerspectiveCamera camera( pos_camera, pos_lookAt, p_up, FOV, float( imgWidth ) / imgHeight );
+
 
 		// Launch rendering.
 		std::cout << "Rendering..." << std::endl;

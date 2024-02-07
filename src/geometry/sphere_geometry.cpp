@@ -9,19 +9,16 @@ namespace RT_ISICG
 		float c	 = glm::dot( oc, oc ) - _radius * _radius;
 		float delta = b * b - 4 * c;
 
-		if ( delta >= 0 ) { 
-			float p_t1 = ( -b - glm::sqrt( delta ) ) / 2;
-			if (p_t1 > 0) {
-				return p_t1; //si intersection devant
-			}
-			else { 
-				p_t2 = ( -b + glm::sqrt( delta ) ) / 2;
-				return p_t2 > 0 ? p_t2 : -1;
-			}
-
+		if ( delta >= 0 )
+		{
+			p_t1 = ( -b - glm::sqrt( delta ) ) / 2;
+			if ( delta > 0 ) p_t2 = ( -b + glm::sqrt( delta ) ) / 2;
 		}
+		else { return false; }
 
-		return false;
+		
+
+		return true;
 	}
 
 } // namespace RT_ISICG

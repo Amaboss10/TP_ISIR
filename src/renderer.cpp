@@ -41,16 +41,19 @@ namespace RT_ISICG
 
 		progressBar.start( height, 50 );
 		chrono.start();
-
+		float pMin = 0, pMax = FLT_MAX;
 		for ( int j = 0; j < height; j++ )
 		{
 			for ( int i = 0; i < width; i++ )
 			{
 				
 				// Générer un rayon passant par le centre de chaque pixel
-				Ray ray = p_camera->generateRay( float( i ) / ( width - 1 ), float( j ) / ( height - 1 ));
+				Ray ray = p_camera->generateRay( float( i ) / float ( width - 1 ), float( j ) / float ( height - 1 ));
 
-				Vec3f color = ( ray.getDirection() + 1.f ) * 0.5f;
+				// Appel de la methode LI 
+				Vec3f color =   _integrator->Li( p_scene, ray, pMin, pMax );
+
+				//Vec3f color = ( ray.getDirection() + 1.f ) * 0.5f;
 
 				// Appliquer la couleur au pixel de la texture
 				p_texture.setPixel( i, j, color );
