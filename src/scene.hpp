@@ -23,10 +23,11 @@ namespace RT_ISICG
 		~Scene();
 
 		// Hard coded initialization.
-		void init();
+		void init( int tpId );
 
 		// Initialization from file.
 		void init( const std::string & p_path ) { throw std::exception( "Not implemented !" ); }
+
 
 		void loadFileTriangleMesh( const std::string & p_name, const std::string & p_path );
 

@@ -11,10 +11,23 @@ namespace RT_ISICG
 
 		// Create a texture to render the scene.
 		Texture img = Texture( imgWidth, imgHeight );
-
+		std::cout << "Affichage des TPs " << std::endl;
+		int input = -1;
+		while ( input > 2 || input < 0 )
+		{
+			std::cout << "------------------------------------" << std::endl;
+			std::cout << "1- TP1 - Ray casting" << std::endl;
+			std::cout << "2- TP2 - Eclairage et calcul d'ombres portees" << std::endl;
+			std::cout << "------------------------------------" << std::endl;
+			std::cout << "ENTREZ LE NUMERO DU TP QUE VOUS VOULEZ VOIR" << std::endl;
+			std::cin >> input;
+			if ( input > 2 || input < 0 ) { std::cout << "ENTREZ LE NUMERO DE TP VALIDE" << std::endl; }
+		}
 		// Create and init scene.
 		Scene scene;
-		scene.init();
+		scene.init(input);
+
+		// Choix de la caméra
 		int choixCamera = -1;
 		int nbSample	= 32;
 
@@ -24,41 +37,67 @@ namespace RT_ISICG
 
 		// Create and setup the renderer.
 		Renderer renderer;
-		renderer.setIntegrator( IntegratorType::RAY_CAST );
-		renderer.setNbPixelSamples( nbSample );
-		renderer.setBackgroundColor( GREY );
 
-		while ( choixCamera > 4 || choixCamera < 0 )
+
+		switch ( input )
 		{
-			std::cout << "------------------------------------" << std::endl;
-			std::cout << "1-Pos:(0,0,-2) Look(0,0,79)" << std::endl;
-			std::cout << "2-Pos:(1,0,0) Look(1,0,1)" << std::endl;
-			std::cout << "3-Pos:(0,1,0) Look(0,1,1)" << std::endl;
-			std::cout << "4-Pos:(4,-1,0) Look(-1,-1,2)" << std::endl;
-			std::cout << "------------------------------------" << std::endl;
-			std::cout << "ENTREZ UN NUMERO DE LA CAMERA" << std::endl;
-			std::cin >> choixCamera;
-			if ( choixCamera > 4 || choixCamera < 0 ) { std::cout << "ENTREZ LE NUMERO DE CAMERA VALIDE" << std::endl; }
+		case 1: renderer.setIntegrator( IntegratorType::RAY_CAST );
+				renderer.setNbPixelSamples( nbSample );
+				renderer.setBackgroundColor( GREY ); 
+			break;
+		case 2: renderer.setIntegrator( IntegratorType::RAY_CAST );
+				renderer.setNbPixelSamples( nbSample );
+				renderer.setBackgroundColor( GREY ); 
+			break;
+		default: break;
+
+
 		}
-		switch ( choixCamera )
+		switch ( input )
 		{
 		case 1:
+			while ( choixCamera > 4 || choixCamera < 0 )
+			{
+				std::cout << "------------------------------------" << std::endl;
+				std::cout << "1-Pos:(0,0,-2) Look(0,0,79)" << std::endl;
+				std::cout << "2-Pos:(1,0,0) Look(1,0,1)" << std::endl;
+				std::cout << "3-Pos:(0,1,0) Look(0,1,1)" << std::endl;
+				std::cout << "4-Pos:(4,-1,0) Look(-1,-1,2)" << std::endl;
+				std::cout << "------------------------------------" << std::endl;
+				std::cout << "ENTREZ UN NUMERO DE LA CAMERA" << std::endl;
+				std::cin >> choixCamera;
+				if ( choixCamera > 4 || choixCamera < 0 )
+				{
+					std::cout << "ENTREZ LE NUMERO DE CAMERA VALIDE" << std::endl;
+				}
+			}
+			switch ( choixCamera )
+			{
+			case 1:
+				pos_camera = Vec3f( 0.f, 0.f, -2.f );
+				pos_lookAt = Vec3f( 0.f, 0.f, 79.f );
+				break;
+			case 2:
+				pos_camera = Vec3f( 1.f, 0.f, 0.f );
+				pos_lookAt = Vec3f( 1.f, 0.f, 1.f );
+				break;
+			case 3:
+				pos_camera = Vec3f( 0.f, 1.f, 0.f );
+				pos_lookAt = Vec3f( 0.f, 1.f, 1.f );
+				break;
+			case 4:
+				pos_camera = Vec3f( 4.f, -1.f, 0.f );
+				pos_lookAt = Vec3f( -1.f, -1.f, 2.f );
+				break;
+			}
+			break;
+		case 2:
 			pos_camera = Vec3f( 0.f, 0.f, -2.f );
 			pos_lookAt = Vec3f( 0.f, 0.f, 79.f );
 			break;
-		case 2:
-			pos_camera = Vec3f( 1.f, 0.f, 0.f );
-			pos_lookAt = Vec3f( 1.f, 0.f, 1.f );
-			break;
-		case 3:
-			pos_camera = Vec3f( 0.f, 1.f, 0.f );
-			pos_lookAt = Vec3f( 0.f, 1.f, 1.f );
-			break;
-		case 4:
-			pos_camera = Vec3f( 4.f, -1.f, 0.f );
-			pos_lookAt = Vec3f( -1.f, -1.f, 2.f );
-			break;
+		default: break;
 		}
+		
 
 		
 		Vec3f p_up		 = Vec3f( 0.f, 1.f, 0.f );

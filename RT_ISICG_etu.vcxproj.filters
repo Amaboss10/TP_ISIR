@@ -107,6 +107,9 @@
     <ClCompile Include="src\geometry\plane_geometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\objects\plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\defines.hpp">
@@ -194,6 +197,9 @@
       <Filter>Header Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="src\geometry\plane_geometry.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\plane.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
