@@ -2,6 +2,7 @@
 #include "integrators/ray_cast_integrator.hpp"
 #include "utils/console_progress_bar.hpp"
 #include "utils/random.hpp"
+#include "integrators/direct_lighting_integrator.hpp"
 
 namespace RT_ISICG
 {
@@ -14,11 +15,17 @@ namespace RT_ISICG
 		switch ( p_integratorType )
 		{
 		case IntegratorType::RAY_CAST:
-		default:
 		{
 			_integrator = new RayCastIntegrator();
 			break;
 		}
+		case IntegratorType::POINT_LIGHT:
+		{
+			_integrator = new DirectLightingIntegrator();
+			break;
+		}
+		default: break;
+
 		}
 	}
 
@@ -70,7 +77,7 @@ namespace RT_ISICG
 				}
 				Vec3f colorfinal = color / (float)_nbPixelSamples;
 				// std::cout << color.x << " " << color.y << " " << color.z << std::endl;
-				p_texture.setPixel( i, j, colorfinal);
+				p_texture.setPixel( i, j, glm::clamp( colorfinal, 0.f, 1.f ) );
 
 			}
 			progressBar.next();

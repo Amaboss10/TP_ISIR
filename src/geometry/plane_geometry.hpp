@@ -22,7 +22,7 @@ namespace RT_ISICG
 
 		private:
 		Vec3f _point = VEC3F_ZERO;
-		  Vec3f _normal = VEC3F_ZERO;
+		Vec3f _normal = VEC3F_ZERO;
 	};
 } // namespace RT_ISICG
 #endif // __RT_ISICG_PLANE_GEOMETRY__

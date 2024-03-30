@@ -6,6 +6,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
+#include "lights/point_light.hpp"
+
 
 namespace RT_ISICG
 {
@@ -53,6 +55,9 @@ namespace RT_ISICG
 			// Link objects and materials.
 			_attachMaterialToObject( "Blue", "Sphere1" );
 			_attachMaterialToObject( "Red", "Plane" );
+
+			// Add lights
+			_addLight( new PointLight( Vec3f( 1.f, 10.f, 1.f ), WHITE, 100.0f ) );
 			break;
 
 		default: break;

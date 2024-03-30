@@ -1,6 +1,7 @@
 #include "cameras/perspective_camera.hpp"
 #include "defines.hpp"
 #include "renderer.hpp"
+#include "integrators/direct_lighting_integrator.hpp"
 
 namespace RT_ISICG
 {
@@ -45,7 +46,7 @@ namespace RT_ISICG
 				renderer.setNbPixelSamples( nbSample );
 				renderer.setBackgroundColor( GREY ); 
 			break;
-		case 2: renderer.setIntegrator( IntegratorType::RAY_CAST );
+		case 2: renderer.setIntegrator( IntegratorType::POINT_LIGHT );
 				renderer.setNbPixelSamples( nbSample );
 				renderer.setBackgroundColor( GREY ); 
 			break;

@@ -26,7 +26,7 @@ namespace RT_ISICG
 		void init( int tpId );
 
 		// Initialization from file.
-		void init( const std::string & p_path ) { throw std::exception( "Not implemented !" ); }
+		//void init( const std::string & p_path ) { throw std::exception( "Not implemented !" ); }
 
 
 		void loadFileTriangleMesh( const std::string & p_name, const std::string & p_path );
