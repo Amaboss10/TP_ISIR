@@ -49,6 +49,7 @@ namespace RT_ISICG
 		progressBar.start( height, 50 );
 		chrono.start();
 		float pMin = 0, pMax = FLT_MAX;
+		#pragma omp parallel for
 		for ( int j = 0; j < height; j++ )
 		{
 			for ( int i = 0; i < width; i++ )

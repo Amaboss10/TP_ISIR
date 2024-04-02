@@ -7,6 +7,7 @@
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include "lights/point_light.hpp"
+#include "lights/quad_light.hpp"
 
 
 namespace RT_ISICG
@@ -59,6 +60,24 @@ namespace RT_ISICG
 			// Add lights
 			_addLight( new PointLight( Vec3f( 1.f, 10.f, 1.f ), WHITE, 100.0f ) );
 			break;
+		case 3:
+			// Add objects.
+			_addObject( new Sphere( "Sphere1", Vec3f( 0.f, 0.f, 3.f ), 1.f ) );
+			_addObject( new Plane( "Plane", Vec3f( 0.f, -2.f, 0.f ), Vec3f( 0.f, -1.f, 0.f ) ) );
+
+			// Add materials.
+			_addMaterial( new ColorMaterial( "Blue", BLUE ) );
+			_addMaterial( new ColorMaterial( "Red", RED ) );
+
+			// Link objects and materials.
+			_attachMaterialToObject( "Blue", "Sphere1" );
+			_attachMaterialToObject( "Red", "Plane" );
+
+			// Add Light 
+			_addLight(
+				new QuadLight( Vec3f( 1.f, 10.f, 2.f ), Vec3f( -2.f, 0.f, 0.f ), Vec3f( 0.f, 0.f, 2.f ), WHITE, 20.f ) );
+				
+
 
 		default: break;
 		}
