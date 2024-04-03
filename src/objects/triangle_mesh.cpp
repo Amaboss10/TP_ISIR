@@ -9,22 +9,25 @@ namespace RT_ISICG
 	{
 		float  tClosest = p_tMax;			 // Hit distance.
 		size_t hitTri	= _triangles.size(); // Hit triangle id.
+		Vec3f  p_n, n_min;
 		for ( size_t i = 0; i < _triangles.size(); i++ )
 		{
 			float t;
-			if ( _triangles[ i ].intersect( p_ray, t ) )
+
+			if ( _triangles[ i ].intersect( p_ray, t, p_n) )
 			{
 				if ( t >= p_tMin && t <= tClosest )
 				{
 					tClosest = t;
 					hitTri	 = i;
+					n_min	 = p_n;
 				}
 			}
 		}
 		if ( hitTri != _triangles.size() ) // Intersection found.
 		{
 			p_hitRecord._point	= p_ray.pointAtT( tClosest );
-			p_hitRecord._normal = _triangles[ hitTri ].getFaceNormal();
+			p_hitRecord._normal = n_min;
 			p_hitRecord.faceNormal( p_ray.getDirection() );
 			p_hitRecord._distance = tClosest;
 			p_hitRecord._object	  = this;
@@ -39,7 +42,8 @@ namespace RT_ISICG
 		for ( size_t i = 0; i < _triangles.size(); i++ )
 		{
 			float t;
-			if ( _triangles[ i ].intersect( p_ray, t ) )
+			Vec3f p_n;
+			if ( _triangles[ i ].intersect( p_ray, t , p_n) )
 			{
 				if ( t >= p_tMin && t <= p_tMax ) return true; // No need to search for the nearest.
 			}

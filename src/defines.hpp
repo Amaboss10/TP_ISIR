@@ -21,6 +21,9 @@ namespace RT_ISICG
 	const float INV_2PIf	 = glm::one_over_two_pi<float>();
 	const float FLT_INFINITY = std::numeric_limits<float>::infinity();
 
+	// Paths
+	const std::string DATA_PATH = "src/data/";
+
 	const float SHADOW_EPSILON = 0.001f;
 
 	// Vectors.

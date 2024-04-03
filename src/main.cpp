@@ -14,16 +14,17 @@ namespace RT_ISICG
 		Texture img = Texture( imgWidth, imgHeight );
 		std::cout << "Affichage des TPs " << std::endl;
 		int input = -1;
-		while ( input > 3 || input < 0 )
+		while ( input > 4 || input < 0 )
 		{
 			std::cout << "------------------------------------" << std::endl;
 			std::cout << "1- TP1 - Ray casting" << std::endl;
 			std::cout << "2- TP2 - Eclairage et calcul d'ombres portees" << std::endl;
 			std::cout << "3- TP3 - Sources lumineuses surfaciques et ombres douces" << std::endl;
+			std::cout << "3- TP4 - Triangle, maillage et BVH " << std::endl;
 			std::cout << "------------------------------------" << std::endl;
 			std::cout << "ENTREZ LE NUMERO DU TP QUE VOUS VOULEZ VOIR" << std::endl;
 			std::cin >> input;
-			if ( input > 3 || input < 0 ) { std::cout << "ENTREZ LE NUMERO DE TP VALIDE" << std::endl; }
+			if ( input > 4 || input < 0 ) { std::cout << "ENTREZ LE NUMERO DE TP VALIDE" << std::endl; }
 		}
 		// Create and init scene.
 		Scene scene;
@@ -50,6 +51,9 @@ namespace RT_ISICG
 			break;
 		case 3:
 				renderer.setIntegrator( IntegratorType::POINT_LIGHT );
+				break;
+		case 4:
+				renderer.setIntegrator( IntegratorType::POINT_LIGHT ); 
 				break;
 		default: break;
 
@@ -100,6 +104,10 @@ namespace RT_ISICG
 		case 3:
 			pos_camera = Vec3f( 0.f, 0.f, -2.f );
 			pos_lookAt = Vec3f( 0.f, 0.f, 79.f );
+			break;
+		case 4:
+			pos_camera = Vec3f( 0.f, 2.f, -7.f );
+			pos_lookAt = Vec3f( 0.f, 0.f, 50.f );
 			break;
 		default: break;
 		}
