@@ -3,6 +3,7 @@
 
 #include "aabb.hpp"
 #include "hit_record.hpp"
+#include "geometry/triangle_mesh_geometry.hpp"
 #include <vector>
 
 namespace RT_ISICG

@@ -7,6 +7,22 @@ namespace RT_ISICG
 								  const float p_tMax,
 								  HitRecord & p_hitRecord ) const
 	{
+		float tClosest = p_tMax;			 // Hit distance.
+		size_t hitTri	= _triangles.size(); // Hit triangle id.
+
+		if ( _bvh.intersect( p_ray, p_tMin, p_tMax, p_hitRecord ) )
+		{
+			p_hitRecord._object = this;
+			return true;
+		}
+		else
+			return false; 
+
+		/* if ( !_aabb.intersect( p_ray, p_tMin, p_tMax ) )
+		{
+			return false; 
+		}
+
 		float  tClosest = p_tMax;			 // Hit distance.
 		size_t hitTri	= _triangles.size(); // Hit triangle id.
 		Vec3f  p_n, n_min;
@@ -34,7 +50,8 @@ namespace RT_ISICG
 
 			return true;
 		}
-		return false;
+		return false;*/
+	
 	}
 
 	bool MeshTriangle::intersectAny( const Ray & p_ray, const float p_tMin, const float p_tMax ) const

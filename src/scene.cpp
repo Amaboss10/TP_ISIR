@@ -93,8 +93,9 @@ namespace RT_ISICG
 			// Add objects .
 			// ================================================================
 			// OBJ.
-			loadFileTriangleMesh( " Bunny ", DATA_PATH + "Bunny.obj" );
-			_attachMaterialToObject( " CyanColor ", "Bunny_defaultobject" );
+			//loadFileTriangleMesh( " Bunny ", DATA_PATH + "Bunny.obj" );
+			loadFileTriangleMesh( " Conference ", DATA_PATH + "conference.obj" );
+			_attachMaterialToObject( " CyanColor ", "Conference_defaultobject" );
 			// Pseudo Cornell box made with infinite planes .
 			_addObject( new Plane( " PlaneGround ", Vec3f( 0.f, -3.f, 0.f ), Vec3f( 0.f, 1.f, 0.f ) ) );
 			_attachMaterialToObject( " GreyColor ", " PlaneGround " );
@@ -111,7 +112,9 @@ namespace RT_ISICG
 			// ================================================================
 			// Add lights .
 			// ================================================================
-			_addLight( new PointLight( Vec3f( 0.f, 3.f, -5.f ), WHITE, 100.f ) );
+			//_addLight( new PointLight( Vec3f( 0.f, 3.f, -5.f ), WHITE, 100.f ) );
+			_addLight( new QuadLight(
+				Vec3f( 900.f, 600.f, -300.f ), Vec3f( -800.f, 0.f, 0.f ), Vec3f( 0.f, 0.f, 300.f ), WHITE, 20.f ) );
 
 			break;
 
@@ -162,6 +165,7 @@ namespace RT_ISICG
 				triMesh->addTriangle( face.mIndices[ 0 ], face.mIndices[ 1 ], face.mIndices[ 2 ] );
 			}
 
+			triMesh->buildBVH();
 			_addObject( triMesh );
 
 			const aiMaterial * const mtl = scene->mMaterials[ mesh->mMaterialIndex ];

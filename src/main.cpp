@@ -32,7 +32,7 @@ namespace RT_ISICG
 
 		// Choix de la caméra
 		int choixCamera = -1;
-		int nbSample	= 32; // à mettre egal à 1 pour activer l'anti-aliasing
+		int nbSample	= 2; // à mettre egal à 1 pour activer l'anti-aliasing
 		
 
 		// Create a perspective camera.
@@ -106,8 +106,13 @@ namespace RT_ISICG
 			pos_lookAt = Vec3f( 0.f, 0.f, 79.f );
 			break;
 		case 4:
-			pos_camera = Vec3f( 0.f, 2.f, -7.f );
-			pos_lookAt = Vec3f( 0.f, 0.f, 50.f );
+			/* For Bunny
+			 *pos_camera = Vec3f( -1.f, 1.f, -8.f );
+			 *pos_lookAt = Vec3f( 0.f, 0.f, 79.f ); 
+			*/ 
+			// For Conference
+			pos_camera = Vec3f( -250.f, 500.f, 330.f );
+			pos_lookAt = Vec3f( 0.f, 350.f, 100.f );
 			break;
 		default: break;
 		}

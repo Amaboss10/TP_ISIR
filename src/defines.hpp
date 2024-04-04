@@ -22,7 +22,8 @@ namespace RT_ISICG
 	const float FLT_INFINITY = std::numeric_limits<float>::infinity();
 
 	// Paths
-	const std::string DATA_PATH = "src/data/";
+	//const std::string DATA_PATH = "src/data/";
+	const std::string DATA_PATH = "src/data/conference/";
 
 	const float SHADOW_EPSILON = 0.001f;
 
