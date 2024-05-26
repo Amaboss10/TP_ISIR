@@ -14,17 +14,18 @@ namespace RT_ISICG
 		Texture img = Texture( imgWidth, imgHeight );
 		std::cout << "Affichage des TPs " << std::endl;
 		int input = -1;
-		while ( input > 4 || input < 0 )
+		while ( input > 5 || input < 0 )
 		{
 			std::cout << "------------------------------------" << std::endl;
 			std::cout << "1- TP1 - Ray casting" << std::endl;
 			std::cout << "2- TP2 - Eclairage et calcul d'ombres portees" << std::endl;
 			std::cout << "3- TP3 - Sources lumineuses surfaciques et ombres douces" << std::endl;
-			std::cout << "3- TP4 - Triangle, maillage et BVH " << std::endl;
+			std::cout << "4- TP4 - Triangle, maillage et BVH " << std::endl;
+			std::cout << "5- TP5 -  Matériaux et BRDFs " << std::endl;
 			std::cout << "------------------------------------" << std::endl;
 			std::cout << "ENTREZ LE NUMERO DU TP QUE VOUS VOULEZ VOIR" << std::endl;
 			std::cin >> input;
-			if ( input > 4 || input < 0 ) { std::cout << "ENTREZ LE NUMERO DE TP VALIDE" << std::endl; }
+			if ( input > 5 || input < 0 ) { std::cout << "ENTREZ LE NUMERO DE TP VALIDE" << std::endl; }
 		}
 		// Create and init scene.
 		Scene scene;
@@ -32,7 +33,7 @@ namespace RT_ISICG
 
 		// Choix de la caméra
 		int choixCamera = -1;
-		int nbSample	= 2; // à mettre egal à 1 pour activer l'anti-aliasing
+		int nbSample	= 1; // à mettre egal à 1 pour activer l'anti-aliasing
 		
 
 		// Create a perspective camera.
@@ -55,6 +56,9 @@ namespace RT_ISICG
 		case 4:
 				renderer.setIntegrator( IntegratorType::POINT_LIGHT ); 
 				break;
+		case 5:
+			renderer.setIntegrator( IntegratorType::POINT_LIGHT );
+			break;
 		default: break;
 
 
@@ -113,6 +117,10 @@ namespace RT_ISICG
 			// For Conference
 			pos_camera = Vec3f( -250.f, 500.f, 330.f );
 			pos_lookAt = Vec3f( 0.f, 350.f, 100.f );
+			break;
+		case 5: 
+			pos_camera = Vec3f( 0.f, 2.f, -7.f );
+			pos_lookAt = Vec3f( 0.f, 2.f, -1.f );
 			break;
 		default: break;
 		}

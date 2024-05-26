@@ -1,32 +1,42 @@
 #include "aabb.hpp"
+#include "geometry/plane_geometry.hpp"
 
 namespace RT_ISICG
 {
+
+	inline float maxi( const Vec3f & v ) { return std::max( v.x, std::max( v.y, v.z ) ); }
+	inline float mini( const Vec3f & v ) { return std::min( v.x, std::min( v.y, v.z ) ); }
+
 	bool AABB::intersect( const Ray & p_ray, const float p_tMin, const float p_tMax ) const
 	{
-		float t0 = p_tMin;
-		float t1 = p_tMax;
+		float tmin = ( _min.x - p_ray.getOrigin().x ) / p_ray.getDirection().x;
+		float tmax = ( _max.x - p_ray.getOrigin().x ) / p_ray.getDirection().x;
 
-		// Parcours des trois dimensions de la boîte englobante.
-		for ( int i = 0; i < 3; ++i )
-		{
-			// Calcul de l'inverse de la direction du rayon pour cette dimension.
-			float invDir = 1.0f / p_ray.getDirection()[ i ];
+		if ( tmin > tmax ) std::swap( tmin, tmax );
 
-			// Calcul des distances d'intersection avec les plans de la boîte englobante pour cette dimension.
-			float tNear = ( _min[ i ] - p_ray.getOrigin()[ i ] ) * invDir;
-			float tFar	= ( _max[ i ] - p_ray.getOrigin()[ i ] ) * invDir;
+		float tymin = ( _min.y - p_ray.getOrigin().y ) / p_ray.getDirection().y;
+		float tymax = ( _max.y - p_ray.getOrigin().y ) / p_ray.getDirection().y;
 
-			// Vérification de l'ordre des distances d'intersection.
-			if ( tNear > tFar ) std::swap( tNear, tFar );
+		if ( tymin > tymax ) std::swap( tymin, tymax );
 
-			// Mise à jour des distances d'intersection les plus proches et les plus éloignées.
-			t0 = ( tNear > t0 ) ? tNear : t0;
-		 	t1 = ( tFar < t1 ) ? tFar : t1;
+		if ( ( tmin > tymax ) || ( tymin > tmax ) ) return false;
 
-			if ( t0 > t1 ) return false;
-		}
+		if ( tymin > tmin ) tmin = tymin;
+
+		if ( tymax < tmax ) tmax = tymax;
+
+		float tzmin = ( _min.z - p_ray.getOrigin().z ) / p_ray.getDirection().z;
+		float tzmax = ( _max.z - p_ray.getOrigin().z ) / p_ray.getDirection().z;
+
+		if ( tzmin > tzmax ) std::swap( tzmin, tzmax );
+
+		if ( ( tmin > tzmax ) || ( tzmin > tmax ) ) return false;
+
+		if ( tzmin > tmin ) tmin = tzmin;
+
+		if ( tzmax < tmax ) tmax = tzmax;
 
 		return true;
 	}
+
 } // namespace RT_ISICG

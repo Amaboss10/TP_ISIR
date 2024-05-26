@@ -1,5 +1,6 @@
 #include "bvh.hpp"
 #include "utils/chrono.hpp"
+#include <algorithm>
 
 namespace RT_ISICG
 {
@@ -16,6 +17,18 @@ namespace RT_ISICG
 		chr.start();
 
 		_root = new BVHNode();
+		if ( _triangles->size() <= _maxTrianglesPerLeaf )
+		{
+			_root->_left			= nullptr;
+			_root->_right			= nullptr;
+			_root->_firstTriangleId = 0;
+			_root->_lastTriangleId	= (int)_triangles->size() - 1;
+			for ( int i = 0; i < _root->_lastTriangleId; i++ )
+			{
+				_root->_aabb.extend( ( *_triangles )[ i ].getAabb() );
+			}
+		}
+		else
 		_buildRec( _root, 0, _triangles->size(), 0 );
 
 		chr.stop();
@@ -37,53 +50,73 @@ namespace RT_ISICG
 
 	void BVH::_buildRec( BVHNode *			p_node,
 						 const unsigned int p_firstTriangleId,
-						 const unsigned int p_lastTriangleId,
+						 const unsigned int p_nbTriangles,
 						 const unsigned int p_depth )
 	{
-		// Calculer l'AABB pour ce nœud en utilisant les triangles dans l'intervalle [p_firstTriangleId,
-		// p_lastTriangleId]
-		for ( int i = p_firstTriangleId; i < p_lastTriangleId; i++ )
+		while ( true )
 		{
-			p_node->_aabb.extend( _triangles->at( i ).getAabb() );
+		// Calcul de l'AABB pour ce nœud en utilisant les triangles dans l'intervalle [p_firstTriangleId,
+		// p_firstTriangleId + p_nbTriangles]
+		for ( unsigned int i = p_firstTriangleId; i < p_firstTriangleId + p_nbTriangles; i++ )
+		{
+				p_node->_aabb.extend( _triangles->at( i ).getAabb() );
 		}
 
 		p_node->_firstTriangleId = p_firstTriangleId;
-		p_node->_lastTriangleId	 = p_lastTriangleId;
+		p_node->_lastTriangleId	 = p_firstTriangleId + p_nbTriangles;
 		p_node->_left			 = nullptr;
 		p_node->_right			 = nullptr;
 
-		// Vérifier les critères d'arrêt
-		if ( p_depth < _maxDepth && p_lastTriangleId - p_firstTriangleId > _maxTrianglesPerLeaf )
-		{
-			// Trouver l'AABB du centre
-			AABB AABB_centre = AABB();
-			for ( int i = p_firstTriangleId; i < p_lastTriangleId; i++ )
+		// Vérification des critères d'arrêt
+		if ( p_depth >= _maxDepth || p_nbTriangles <= _maxTrianglesPerLeaf ) { break; }
+
+		// Trouver l'AABB du centre
+		AABB AABB_centre = AABB();
+		for ( unsigned int i = p_firstTriangleId; i < p_firstTriangleId + p_nbTriangles; i++ )
 				AABB_centre.extend( ( *_triangles )[ i ].getCentroid() );
 
-			// Trouver l'axe de partition en fonction de l'axe ayant la plus grande longueur de l'AABB du nœud
-			int	  largestAxis = p_node->_aabb.largestAxis();
-			float milieu	  = ( AABB_centre.getMin()[ largestAxis ] + AABB_centre.getMax()[ largestAxis ] ) * 0.5f;
+		// Trouver l'axe de partition en fonction de l'axe ayant la plus grande longueur de l'AABB du nœud
+		int	  largestAxis = p_node->_aabb.largestAxis();
+		float milieu	  = ( AABB_centre.getMin()[ largestAxis ] + AABB_centre.getMax()[ largestAxis ] ) * 0.5f;
 
-			// Partitionner les triangles en deux groupes en fonction de l'axe de partition
-			int idMid = -1;
-			for ( int i = p_firstTriangleId; i <= p_lastTriangleId; i++ )
-			{
-				if ( ( *_triangles )[ i ].getCentroid()[ largestAxis ] >= milieu )
-				{
-					idMid = i;
-					break;
-				}
-			}
-			if ( idMid == -1 ) { idMid = p_lastTriangleId; }
+		// Partitionner les triangles en deux groupes en fonction de l'axe de partition
+		unsigned int idMid = p_firstTriangleId + p_nbTriangles / 2;
 
-			// Construire les sous-arbres récursivement
-			p_node->_left = new BVHNode();
-			_buildRec( p_node->_left, p_firstTriangleId, idMid, p_depth + 1 );
+		std::function<bool( TriangleMeshGeometry, TriangleMeshGeometry )> triFunction;
+		switch ( largestAxis )
+		{
+		case 0:
+				triFunction = [ this ]( TriangleMeshGeometry i, TriangleMeshGeometry j )
+				{ return ( i.getCentroid().x < j.getCentroid().x ); };
+				break;
+		case 1:
+				triFunction = [ this ]( TriangleMeshGeometry i, TriangleMeshGeometry j )
+				{ return ( i.getCentroid().y < j.getCentroid().y ); };
+				break;
+		case 2:
+				triFunction = [ this ]( TriangleMeshGeometry i, TriangleMeshGeometry j )
+				{ return ( i.getCentroid().z < j.getCentroid().z ); };
+				break;
+		}
 
-			p_node->_right = new BVHNode();
-			_buildRec( p_node->_right, idMid, p_lastTriangleId, p_depth + 1 );
+		std::partial_sort( _triangles->begin() + p_firstTriangleId,
+						   _triangles->begin() + p_firstTriangleId + p_nbTriangles,
+						   _triangles->begin() + p_firstTriangleId + p_nbTriangles,
+						   triFunction );
+
+		// Construire les sous-arbres récursivement
+		p_node->_left = new BVHNode();
+		p_node		  = p_node->_left;
+		_buildRec( p_node, p_firstTriangleId, idMid - p_firstTriangleId, p_depth + 1 );
+
+		p_node->_right = new BVHNode();
+		p_node		   = p_node->_right;
+		_buildRec( p_node, idMid, p_firstTriangleId + p_nbTriangles - idMid, p_depth + 1 );
+		break;
 		}
 	}
+
+
 
 	bool BVH::_intersectRec( const BVHNode * p_node,
 							 const Ray &	 p_ray,

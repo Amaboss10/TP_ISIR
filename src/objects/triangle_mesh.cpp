@@ -17,9 +17,9 @@ namespace RT_ISICG
 		}
 		else
 			return false; 
-
+	
 		/* if ( !_aabb.intersect( p_ray, p_tMin, p_tMax ) )
-		{
+		{  
 			return false; 
 		}
 

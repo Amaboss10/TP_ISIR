@@ -5,6 +5,7 @@
 #include "hit_record.hpp"
 #include "geometry/triangle_mesh_geometry.hpp"
 #include <vector>
+#include <functional>
 
 namespace RT_ISICG
 {
@@ -57,6 +58,7 @@ namespace RT_ISICG
 							   const Ray &	   p_ray,
 							   const float	   p_tMin,
 							   const float	   p_tMax ) const;
+
 
 	  private:
 		std::vector<TriangleMeshGeometry> * _triangles = nullptr;

@@ -41,7 +41,7 @@ namespace RT_ISICG
 				{
 					float cosTheta = ( l->getIsSurface() ) ? glm::dot( hitRecord._normal, -lightSample._direction )
 														   : glm::dot( hitRecord._normal, lightSample._direction );
-					tempLi += hitRecord._object->getMaterial()->getFlatColor() * lightSample._radiance
+					tempLi += hitRecord._object->getMaterial()->shade(p_ray, hitRecord, lightSample) * lightSample._radiance
 							  * glm::max( 0.f, cosTheta );
 				}
 			}

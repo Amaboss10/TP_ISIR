@@ -48,7 +48,7 @@ namespace RT_ISICG
 
 		progressBar.start( height, 50 );
 		chrono.start();
-		float pMin = 0, pMax = FLT_MAX;
+		float pMin = 0, pMax = 700;
 		#pragma omp parallel for
 		for ( int j = 0; j < height; j++ )
 		{
@@ -71,8 +71,8 @@ namespace RT_ISICG
 				for ( int sample = 0; sample < _nbPixelSamples; sample++ )
 				{
 
-					const Ray myRay = p_camera->generateRay( (float)( i  + randomFloat()) / (float)( width ),
-															 (float)( j  + randomFloat() )/ (float)( height  ) );
+					const Ray myRay = p_camera->generateRay( (float)( i  + randomFloat()) / (float)( width - 1),
+															 (float)( j  + randomFloat() )/ (float)( height -1 ) );
 
 					color += _integrator->Li( p_scene, myRay, pMin, pMax );
 				}

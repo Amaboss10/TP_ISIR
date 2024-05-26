@@ -11,6 +11,10 @@ namespace RT_ISICG
 	{
 		_faceNormal = glm::normalize( glm::cross( _refMesh->_vertices[ p_v1 ] - _refMesh->_vertices[ p_v0 ],
 												  _refMesh->_vertices[ p_v2 ] - _refMesh->_vertices[ p_v0 ] ) );
+		_aabb		= AABB( _refMesh->_vertices[ p_v0 ] );
+		_aabb.extend( _refMesh->_vertices[ p_v1 ] );
+		_aabb.extend( _refMesh->_vertices[ p_v2 ] );
+		_centroid = ( _refMesh->_vertices[ _v0 ] + _refMesh->_vertices[ _v1 ] + _refMesh->_vertices[ _v2 ] ) / 3.f;
 	}
 
 	bool TriangleMeshGeometry::intersect( const Ray & p_ray, float & p_t, Vec3f & p_n ) const
@@ -75,5 +79,6 @@ namespace RT_ISICG
 			return false;
 		}
 	}
+	
 
 } // namespace RT_ISICG

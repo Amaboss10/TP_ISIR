@@ -10,6 +10,7 @@ namespace RT_ISICG
 	  public:
 		AABB() = default;
 		AABB( const Vec3f & p_min, const Vec3f & p_max ) : _min( p_min ), _max( p_max ) {}
+		AABB( const Vec3f & p_firstVertices ) : _min( p_firstVertices ), _max( p_firstVertices ) {};
 		~AABB() = default;
 
 		inline const Vec3f & getMin() const { return _min; }

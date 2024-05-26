@@ -24,6 +24,7 @@ namespace RT_ISICG
 		inline const Vec3f & getFaceNormal() const { return _faceNormal; }
 		const AABB			 getAabb() { return _aabb; }
 		Vec3f &				 getCentroid() { return _centroid; }
+		
 
 	  private:
 		MeshTriangle * _refMesh;
@@ -36,7 +37,7 @@ namespace RT_ISICG
 			unsigned int _v[ 3 ] = { 0, 0, 0 };
 		};
 
-		Vec3f _faceNormal;
+		Vec3f _faceNormal = VEC3F_ZERO;
 		AABB  _aabb;
 		Vec3f _centroid;
 	};
